@@ -19,9 +19,10 @@ class TicTacToeSeparate(ImageDataset):
             return super().__getitem__("{}_{}".format(*i))
         elif self.name == 'MNIST':
             index = "{}_{}".format(*i)
-            csv = pd.read_csv(self.csv)
+            csv = pd.read_csv(self.csv, header=None)
             r, c = int(index[0]), int(index[-1])
             cell = csv.iloc[r, c]
+            print(cell)
             label = self.classi.index(cell)
             y = None
             while y != label:

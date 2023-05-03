@@ -33,3 +33,16 @@ The repository already contains .png files for
 the creation of synthetic images of size 150x150 
 and 28x28. If you wish to create images of a different 
 size, you will need to download inkscape.
+
+Below is an example of a Board with MNIST and synthetic data. 
+```
+label: b,x,o,x,b,o,x,b,o
+```
+![alt text](board_MNIST.png)
+MNIST:
+0 = b;
+1 = o;
+2 = x;
+
+
+![alt text](board_ink.png)
