@@ -39,6 +39,7 @@ Below is an example of a Board with MNIST and synthetic data.
 label: b,x,o,x,b,o,x,b,o
 ```
 ![alt text](board_MNIST.png)
+
 MNIST:
 0 = b;
 1 = o;
