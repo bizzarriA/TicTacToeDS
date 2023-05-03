@@ -5,7 +5,7 @@ The repository contains the file TicTacToe.py
 where the dataset is defined in the format required 
 by DeepProblog. The to_query() function generates 
 the query *game(Board, Outcome)*, this part will have 
-to be adapted to the logic programme.
+to be adapted to the logic program.
 
 The dataset is generated in the following way:
 
