@@ -112,38 +112,63 @@ next(C,R) :- line(C,R).
 % - se O mette in un edge, ha una linea in row/col => X blocca
 % => IN TEORIA QUESTE REGOLE NON SERVONO
 % X in (1,1) E in (3,3) 
-next(3,1) :- \+empty_board, \+line, cell(2,2,o), cell(1,3,o), cell(1,1,x), cell(3,3,x), cell(3,1,b). 
-next(1,1) :- \+empty_board, \+line, cell(2,2,o), cell(3,1,o), cell(1,1,x), cell(3,3,x), cell(1,1,b). 
+% next(3,1) :- \+empty_board, \+line, cell(2,2,o), cell(1,3,o), cell(1,1,x), cell(3,3,x), cell(3,1,b). 
+% next(1,1) :- \+empty_board, \+line, cell(2,2,o), cell(3,1,o), cell(1,1,x), cell(3,3,x), cell(1,1,b). 
 % X in (1,3) E in (3,1) 
-next(1,1) :- \+empty_board, \+line, cell(2,2,o), cell(3,3,o), cell(1,3,x), cell(3,1,x), cell(1,1,b).
-next(3,3) :- \+empty_board, \+line, cell(2,2,o), cell(1,1,o), cell(1,3,x), cell(3,1,x), cell(3,3,b).
+% next(1,1) :- \+empty_board, \+line, cell(2,2,o), cell(3,3,o), cell(1,3,x), cell(3,1,x), cell(1,1,b).
+% next(3,3) :- \+empty_board, \+line, cell(2,2,o), cell(1,1,o), cell(1,3,x), cell(3,1,x), cell(3,3,b).
 
 % 3ab: If your opponent puts down an O in the corner that's not next to your X, 
 % you can use your third X to block their move and automatically win with your fourth X.
 % IN TEORIA, CASO GIà COPERTO DA GENERAL RULE (ma O2 DEVE essere NON vicino alla X)
-% E se O2 è vicino alla X? In teoria coperto da mossa a caso
+
+% 3ac [nessuna delle precedenti]: E se O2 è vicino alla X? In teoria coperto da mossa a caso || block
 
 % ----
 
 % 2b. O1 NOT in center.
-% X2 in any other corner, with an empty space in between the two X's.
+% X2 in any other corner (NOT opposite X1 - vedi nota), with an empty space in between the two X's.
 
-% - Caso in cui player1 inizia in TL (1,3)
+% - Caso in cui player1 inizia in (1,3)
+0.5 :: next(1,1); 0.5 :: next(3,3) :- 
+    \+empty_board, \+line, cell(1,3,x), cell(2,2,b), cell(1,1,b), cell(3,3,b), cell(2,3,b), cell(1,2,b), cell(3,2,o).
+0.5 :: next(1,1); 0.5 :: next(3,3) :- 
+    \+empty_board, \+line, cell(1,3,x), cell(2,2,b), cell(1,1,b), cell(3,3,b), cell(2,3,b), cell(1,2,b), cell(2,1,o).
+0.5 :: next(1,1); 0.5 :: next(3,3) :- 
+    \+empty_board, \+line, cell(1,3,x), cell(2,2,b), cell(1,1,b), cell(3,3,b), cell(2,3,b), cell(1,2,b), cell(3,1,o).
 next(3,3) :- \+empty_board, \+line, cell(1,3,x), cell(2,2,b), cell(3,3,b), cell(2,3,b). 
 next(1,1) :- \+empty_board, \+line, cell(1,3,x), cell(2,2,b), cell(1,1,b), cell(2,1,b). 
 % next(3,1) :- \+empty_board, \+line, cell(1,3,x), cell(2,2,b), cell(3,1,b). 
 
-% - Caso in cui player1 inizia in TR (3,3)
+% - Caso in cui player1 inizia in (3,3)
+0.5 :: next(1,3); 0.5 :: next(3,1) :-
+    \+empty_board, \+line, cell(3,3,x), cell(2,2,b), cell(1,3,b), cell(3,1,b), cell(2,3,b), cell(3,2,b), cell(1,2,o).
+0.5 :: next(1,3); 0.5 :: next(3,1) :-
+    \+empty_board, \+line, cell(3,3,x), cell(2,2,b), cell(1,3,b), cell(3,1,b), cell(2,3,b), cell(3,2,b), cell(1,1,o).
+0.5 :: next(1,3); 0.5 :: next(3,1) :-
+    \+empty_board, \+line, cell(3,3,x), cell(2,2,b), cell(1,3,b), cell(3,1,b), cell(2,3,b), cell(3,2,b), cell(3,1,o).
 next(1,3) :- \+empty_board, \+line, cell(3,3,x), cell(2,2,b), cell(1,3,b), cell(2,3,b).
 next(3,1) :- \+empty_board, \+line, cell(3,3,x), cell(2,2,b), cell(3,1,b), cell(3,2,b).
 % next(1,1) :- \+empty_board, \+line, cell(3,3,x), cell(2,2,b), cell(1,1,b).
 
-% - Caso in cui player1 inizia in BL (1,1)
+% - Caso in cui player1 inizia in (1,1)
+0.5 :: next(1,3); 0.5 :: next(3,1) :-
+    \+empty_board, \+line, cell(1,1,x), cell(2,2,b), cell(1,3,b), cell(3,1,b), cell(1,2,b), cell(2,1,b), cell(2,3,o).
+0.5 :: next(1,3); 0.5 :: next(3,1) :-
+    \+empty_board, \+line, cell(1,1,x), cell(2,2,b), cell(1,3,b), cell(3,1,b), cell(1,2,b), cell(2,1,b), cell(3,3,o).
+0.5 :: next(1,3); 0.5 :: next(3,1) :-
+    \+empty_board, \+line, cell(1,1,x), cell(2,2,b), cell(1,3,b), cell(3,1,b), cell(1,2,b), cell(2,1,b), cell(3,2,o).
 next(1,3) :- \+empty_board, \+line, cell(1,1,x), cell(2,2,b), cell(1,3,b), cell(1,2,b).
 next(3,1) :- \+empty_board, \+line, cell(1,1,x), cell(2,2,b), cell(3,1,b), cell(2,1,b).
 % next(3,3) :- \+empty_board, \+line, cell(1,1,x), cell(2,2,b), cell(3,3,b).
 
-% - Caso in cui player1 inizia in BR
+% - Caso in cui player1 inizia in (3,1)
+0.5 :: next(1,1); 0.5 :: next(3,3) :- 
+    \+empty_board, \+line, cell(3,1,x), cell(2,2,b), cell(1,1,b), cell(3,3,b), cell(3,2,b), cell(2,1,b), cell(1,3,o).
+0.5 :: next(1,1); 0.5 :: next(3,3) :- 
+    \+empty_board, \+line, cell(3,1,x), cell(2,2,b), cell(1,1,b), cell(3,3,b), cell(3,2,b), cell(2,1,b), cell(2,3,o).
+0.5 :: next(1,1); 0.5 :: next(3,3) :- 
+    \+empty_board, \+line, cell(3,1,x), cell(2,2,b), cell(1,1,b), cell(3,3,b), cell(3,2,b), cell(2,1,b), cell(1,2,o).
 next(1,1) :- \+empty_board, \+line, cell(3,1,x), cell(2,2,b), cell(1,1,b), cell(2,1,b).
 next(3,3) :- \+empty_board, \+line, cell(3,1,x), cell(2,2,b), cell(3,3,b), cell(3,2,b).
 % next(1,3) :- \+empty_board, \+line, cell(3,1,x), cell(2,2,b), cell(1,3,b).
@@ -151,7 +176,7 @@ next(3,3) :- \+empty_board, \+line, cell(3,1,x), cell(2,2,b), cell(3,3,b), cell(
 % NOTA: lo spazio al centro non va bene: se O2 blocca al centro, X3 dovrà sempre bloccare (=> no doppio gioco)
 
 
-% 3ab. Put X3 so you have two possible winning moves (given that O2 blocks - if not, win). 
+% 3b. Put X3 so you have two possible winning moves (given that O2 blocks - if not, win). 
 % After O2 blocks, there should be an empty square that is in line with both X1 and X2, 
 % with no enemy O's blocking that line: put X3 in this square.
 
@@ -186,7 +211,6 @@ next(3,3) :- \+empty_board, \+line, cell(3,1,x), cell(2,2,b), cell(3,3,b), cell(
 
 0.5 :: next(1,1); 0.5 :: next(1,3) :- 
     \+empty_board, \+line, cell(3,1,x), cell(3,2,o), cell(3,3,x), cell(1,1,b), \+cell(2,2,b), cell(1,3).
-
 
 0.5 :: next(2,2); 0.5 :: next(1,3) :- 
     \+empty_board, \+line, cell(3,1,x), cell(3,2,o), cell(3,3,x), \+cell(1,1,b), cell(2,2,b), cell(1,3).
@@ -248,7 +272,7 @@ next(2,2) :- \+empty_board, \+line, cell(2,2,b).
 % 2. Force a draw when the opponent starts in the center: put your first X in a corner. 
 % After that, just keep blocking your opponent from scoring and the game will be a draw
 0.25 :: next(1,1) ; 0.25 :: next(3,1) ; 0.25 :: next(1,3) ; 0.25 :: next(3,3) :- 
-    \+empty_board, \+line, cell(2,2,x), cell(3,1,o). 
+    \+empty_board, \+line, cell(2,2,x). 
 
 
 % ------------------------------------------------------------------------------
