@@ -17,21 +17,25 @@ def check_winner(board):
 
     return None  # No winner
 
-def generate_random_board():
+def generate_random_board(previous_board=None):
     symbols = ['X', 'O', 'X', 'O', 'X', 'O', 'X', 'O', 'X']
     board = [['b' for _ in range(3)] for _ in range(3)]
-
+    winner = None
     for i in range(9):
         row, col = divmod(i, 3)
         symbol = random.choice(symbols)
         board[row][col] = symbol
         winner = check_winner(board)
         if winner:
-            return board, winner
+            break
         symbols.remove(symbol)
     if valid_game(board):
-        return board, 'b'
-    return board, None
+        winner = 'b'
+    if previous_board is not None:
+        sample = [winner] + [cell for row in board for cell in row]
+        if sample in previous_board:
+            winner = None
+    return board, winner
 
 def valid_game(board):
     count_x = sum(row.count('X') for row in board)
@@ -49,14 +53,23 @@ def save_to_csv(filename, data):
         csv_writer.writerows(data)
 
 if __name__ == "__main__":
-    num_games = 10000
-    csv_filename = 'tictactoe_games.csv'
+    num_games = 100000
 
     game_data = []
-    for _ in range(num_games):
+    i = 0
+    while i in range(num_games):
         board, winner = generate_random_board()
         if winner:
+            i += 1
             game_data.append([winner] + [cell for row in board for cell in row])
 
+    # Split into train and test
+    random.shuffle(game_data)
+    train_size = int(0.8 * len(game_data))
+    train_data = game_data[:train_size]
+    test_data = game_data[train_size:]
+
+    # Save train and test sets to separate CSV files
     header = ['Winner'] + [f'C{i}' for i in range(1, 10)]
-    save_to_csv(csv_filename, [header] + game_data)
+    save_to_csv('data/labels/train.csv', [header] + train_data)
+    save_to_csv('data/labels/test.csv', [header] + test_data)
