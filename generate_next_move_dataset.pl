@@ -420,9 +420,12 @@ display_game([A,B,C,D,E,F,G,H,I]) :-
     writeln([A,B,C]).
 
 
+pair_((A,B)):-
+    pair_(A,B).
 
-
-generate_dataset :-
-    tell('tris_dataset.txt'),
-    mc_sample_arg_raw(pair_(A,B),100,(A,B),_),
-    told.
+generate_dataset(N) :-
+    (nonvar(N) -> true ; N = 100), % Add a check to ensure N is instantiated
+    tell('next_move_dataset.txt'),
+    mc_sample_arg_raw(pair_(P),N,P,_),
+    told,
+    halt.

@@ -47,3 +47,13 @@ MNIST:
 
 
 ![alt text](board_ink.png)
+
+
+## Next move dataset
+
+To generate the dataset for the next move on an incomplete board, run the command:
+```
+swipl -f generate_next_move_dataset.pl -g "generate_dataset(500)"
+```
+where the argument of predicate generate_dataset/1 is the desired number of examples, i.e., incomplete board and where the player should put their symbol.
+A plain text file named next_move_dataset.txt will be generated.
